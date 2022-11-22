@@ -5,11 +5,26 @@ from tkinter import filedialog
 import os
 
 root = Tk()
+root.title("Encrypt and Decrypt")
 root.geometry("400x250")
 root.configure(bg="OrangeRed1")
 
 file_name_entry = ""
 encryption_text_data = ""
+decryption_text_data = ""
+
+def ViewData():
+    global decryption_text_data
+    text_files = filedialog.askopenfilename(title="Open Text File",filetypes=(("Text Files","*.txt")))
+    name = os.path.basename(text_files)
+    print(name)
+    text_file = open(name + ".txt","r")
+    paragraph = read(text_file)
+    byte_str = bytes.fromhex(text)
+    original = decrypt('FBZ', byte_str)
+    final_data = original.decode('utf-8')
+    decryption_text_data = insert(END,final_data)
+    
 
 def startDecryption():
     global file_name_entry
@@ -18,12 +33,13 @@ def startDecryption():
  
     decryption_window = Tk()
     decryption_window.geometry("600x500")
+    decryption_window.title("Decrypt")
     decryption_window.configure(bg="OrangeRed1")
     
     decryption_text_data = Text(decryption_window, height=20, width=72)
     decryption_text_data.place(relx=0.5,rely=0.35, anchor=CENTER)
     
-    btn_open_file = Button(decryption_window, text="Choose File..", font = 'arial 13',bg="darkorange",fg="#3b060d")
+    btn_open_file = Button(decryption_window, text="Choose File..", font = 'arial 13',bg="darkorange",fg="#3b060d",command=ViewData)
     btn_open_file.place(relx=0.5,rely=0.8, anchor=CENTER)
     
     decryption_window.mainloop()
@@ -38,7 +54,7 @@ def SaveData():
     ciphercode = encrypt("FBZ", data)
     text = ciphercode.hex()
     print("Coded : "+text)
-    file= Write(data)
+    file_name=write(text)
     file_name_entry.delete(0,END)
     encryption_text_data.delete(0,END)
     messagebox.showinfo("Successful!","Congratulations your file has been successfully saved :) :) ")
@@ -49,6 +65,7 @@ def startEncryption():
     root.destroy()
  
     encryption_window = Tk()
+    encryption_window.title("Encrypt")
     encryption_window.geometry("600x500")
     encryption_window.configure(bg="OrangeRed1")
     
